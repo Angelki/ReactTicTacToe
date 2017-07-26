@@ -10,43 +10,19 @@ function Square(props) {
   );
 }
 
-
-
-
 class Board extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      squares: Array(9).fill(null),
-      xIsNext: true,
-    };
-  }
-
-  
-
   renderSquare(i) {
     return (
       <Square
-        // value={this.state.squares[i]}
-        // onClick={() => this.handleClick(i)}
-        value = {this.props.squares[i]}
-        onClick = {() => this.props.onClick(i)}
+        value={this.props.squares[i]}
+        onClick={() => this.props.onClick(i)}
       />
     );
   }
 
   render() {
-    const winner = calculateWinner(this.state.squares);
-    let status;
-    if (winner) {
-      status = 'Winner: ' + winner;
-    } else {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
-    }
-
     return (
       <div>
-        
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
@@ -68,18 +44,15 @@ class Board extends React.Component {
 }
 
 class Game extends React.Component {
-  constructor(){
-    super();//在this关键词之前使用
+  constructor() {
+    super();
     this.state = {
       history: [{
-        squares:Array(9).fill(null),
-
+        squares: Array(9).fill(null)
       }],
-      xIsNext: true,
+      xIsNext: true
     };
   }
-
-
 
   handleClick(i) {
     const history = this.state.history;
@@ -91,25 +64,23 @@ class Game extends React.Component {
     squares[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
       history: history.concat([{
-        squares: squares,
+        squares: squares
       }]),
       xIsNext: !this.state.xIsNext,
     });
   }
 
-
   render() {
-
     const history = this.state.history;
     const current = history[history.length - 1];
     const winner = calculateWinner(current.squares);
 
-     const moves = history.map((step, move) => {
+    const moves = history.map((step, move) => {
       const desc = move ?
         'Move #' + move :
         'Game start';
       return (
-        <li>
+        <li key={move}>
           <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
         </li>
       );
@@ -125,7 +96,7 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-           <Board
+          <Board
             squares={current.squares}
             onClick={(i) => this.handleClick(i)}
           />
@@ -165,4 +136,3 @@ function calculateWinner(squares) {
   }
   return null;
 }
-
